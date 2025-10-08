@@ -1,12 +1,12 @@
 @font-face {
-    font-family: "MyCustomFont"; /* name to use in CSS */
-    src: url("font/kilo.otf") format("opentype");
+    font-family: "MyCustomFont"; 
+    src: url("font/font2.otf") format("opentype");
     font-weight: normal;
     font-style: normal;
   }
 
   @font-face {
-    font-family: "BodyFont"; /* name to use in CSS */
+    font-family: "BodyFont"; 
     src: url("font/reg.otf") format("opentype");
     font-weight: normal;
     font-style: normal;
@@ -112,11 +112,13 @@ html, body {
   button.fade-out {
     opacity: 0;
     pointer-events: none;
-    transform: scale(0.9); /* optional small shrink effect */
+    transform: scale(0.9); 
   }
+
+
   /* fortune section */
   #fortuneContainer {
-    position: fixed;        /* fixed so it centers relative to viewport */
+    position: fixed;       
     top: 50%;               /* vertical center */
     left: 50%;              /* horizontal center */
     transform: translate(-50%, -50%); /* shift back by half width/height */
@@ -126,10 +128,10 @@ html, body {
     opacity: 0;
     transition: opacity 1s ease;
     z-index: 2;
-    width: 90%;             /* optional, adjusts size */
-    height: 90%;            /* optional, keeps it square for circular gradient */
+    width: 90%;             
+    height: 90%;           
     background: radial-gradient(circle, #fff 0%, #e392e8 40%, transparent 70%);
-    border-radius: 100%;     /* makes it circular */
+    border-radius: 100%;     
 }
 
   #fortuneContainer.active { opacity: 1; }
@@ -206,7 +208,7 @@ html, body {
     padding: 2rem;
     border-radius: 20px;
     
-    background: rgba(0,0,0,0.2); /* semi-transparent for glow */
+    background: rgba(0,0,0,0.2); 
     box-shadow: 0 0 20px 5px rgba(239, 91, 210, 0.7),
                 0 0 40px 10px rgba(239, 91, 210, 0.3);
     border: 2px solid rgba(239, 91, 210, 0.5);

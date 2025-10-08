@@ -41,7 +41,9 @@
   </div>
 
   <script>
-  // --- RAINING STARS ---
+
+
+  // ---  STARS  JS HELP WOOO ---
   (() => {
     const EMOJIS = ['☆', '★', '⋆｡°✩', '❤︎'];
     const MAX_STARS = 50;
@@ -67,7 +69,7 @@
     setInterval(spawnStar, 150);
   })();
 
-  // --- FORTUNE FUNCTIONALITY ---
+  // --- FORTUNE FUNCTIONALITY LOL ---
   const fadeBtn = document.getElementById('fadeBtn');
   const modelContainer = document.getElementById('modelContainer');
   const fortuneContainer = document.getElementById('fortuneContainer');
@@ -110,20 +112,20 @@ const cards = [];
 for (let i = 0; i < 22; i++) {
   const c = document.createElement('div');
   c.className = 'card';
-  c.style.transform = 'translate(-50%, -50%)'; // start centered
+  c.style.transform = 'translate(-50%, -50%)'; 
   c.addEventListener('click', () => pickCard());
   cardsContainer.appendChild(c);
   cards.push(c);
 }
 
 function fanOutCards() {
-  const radius = 300; // smaller so cards stay near the star
+  const radius = 300; // radius 4 da cards
   const container = document.querySelector('.fortune-center');
   const centerX = container.offsetWidth / 2;
   const centerY = container.offsetHeight / 2;
 
   cards.forEach((c, i) => {
-    const angle = (i / cards.length) * 2 * Math.PI - Math.PI / 2; // fan starts from top
+    const angle = (i / cards.length) * 2 * Math.PI - Math.PI / 2; 
     const x = centerX + radius * Math.cos(angle);
     const y = centerY + radius * Math.sin(angle);
     setTimeout(() => {
