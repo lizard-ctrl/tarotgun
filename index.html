@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">  
+<head>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="style.css">
+
+  <title>Raining Stars + Fortune Circle</title>
+  <style>
+  
+  </style>
+</head>
+<body>
+
+  <div id="star-layer"></div>
+  
+  <button id="fadeBtn">CLICK FOR FORTUNE</button>
+
+  <div id="modelContainer">
+    <model-viewer
+      src="object2/25_10_08_03_21_20_654.gltf"
+      alt="A 3D model"
+      auto-rotate
+      
+      style="width: 100%; height: 100%;">
+    </model-viewer>
+  </div>
+
+  <div id="fortuneContainer">
+    <img id="cardImg" src="img/16.png">
+    <h1 id="TarotText">PICK A CARD</h1>
+    <div class="fortune-center">
+      <div class="cards" id="cardsContainer"></div>
+    </div>
+  </div>
+  
+
+  <div id="resultContainer">
+    <div id="resultName"></div>
+    <div id="resultDescription"></div>
+  </div>
+
+  <script>
+  // --- RAINING STARS ---
+  (() => {
+    const EMOJIS = ['☆', '★', '⋆｡°✩', '❤︎'];
+    const MAX_STARS = 50;
+    const SKY = document.getElementById('star-layer');
+    let live = 0;
+    const rand = (min, max) => Math.random() * (max - min) + min;
+    function spawnStar() {
+      if (live > MAX_STARS) return;
+      const el = document.createElement('span');
+      el.className = 'star';
+      el.textContent = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+      el.style.left = rand(0, 100) + 'vw';
+      el.style.fontSize = rand(0.8, 2.8) + 'em';
+      const dur = rand(4, 9);
+      el.style.animationDuration = dur + 's';
+      el.style.setProperty('--sway', rand(-120, 120) + 'px');
+      el.style.setProperty('--rot', rand(-720, 720) + 'deg');
+      el.style.animationDelay = rand(0, 2) + 's';
+      el.addEventListener('animationend', () => { el.remove(); live--; });
+      SKY.appendChild(el);
+      live++;
+    }
+    setInterval(spawnStar, 150);
+  })();
+
+  // --- FORTUNE FUNCTIONALITY ---
+  const fadeBtn = document.getElementById('fadeBtn');
+  const modelContainer = document.getElementById('modelContainer');
+  const fortuneContainer = document.getElementById('fortuneContainer');
+  const cardsContainer = document.getElementById('cardsContainer');
+  const resultContainer = document.getElementById('resultContainer');
+  const resultName = document.getElementById('resultName');
+  const resultDescription = document.getElementById('resultDescription');
+
+  const fortunes = [
+  { name: "The Fool", desc: "A new journey begins — take a leap of faith.", img: "img/14a.png" },
+  { name: "The Magician", desc: "Your potential is limitless — manifest your desires.", img: "img/7.png" },
+  { name: "The High Priestess", desc: "Trust your intuition and inner wisdom.", img: "img/17a.png" },
+  { name: "The Empress", desc: "Abundance, creativity, and nurturing surround you.", img: "img/8.png" },
+  { name: "The Emperor", desc: "Authority, structure, and discipline guide you.", img: "img/11.png" },
+  { name: "The Hierophant", desc: "Tradition, learning, and spiritual guidance appear.", img: "img/6.png" },
+  { name: "The Lovers", desc: "Choices in love and partnerships are highlighted.", img: "img/18a.png" },
+  { name: "The Chariot", desc: "Victory and determination will lead you forward.", img: "img/2.png" },
+  { name: "Strength", desc: "Inner courage and patience will carry you.", img: "img/12.png" },
+  { name: "The Hermit", desc: "Reflection and solitude bring clarity.", img: "img/22.png" },
+  { name: "Wheel of Fortune", desc: "Cycles and change are coming into play.", img: "img/15a.png" },
+  { name: "Justice", desc: "Fairness, truth, and accountability guide you.", img: "img/4.png" },
+  { name: "The Hanged Man", desc: "Pause, surrender, and new perspective await.", img: "img/3.png" },
+  { name: "Death", desc: "Endings make way for new beginnings.", img: "img/4.png" },
+  { name: "Temperance", desc: "Balance, patience, and harmony are key.", img: "img/20a.png" },
+  { name: "The Devil", desc: "Beware of attachments and limiting patterns.", img: "img/1.png" },
+  { name: "The Tower", desc: "Sudden change shakes the foundations.", img: "img/13a.png" },
+  { name: "The Star", desc: "Hope, inspiration, and serenity shine on you.", img: "img/10.png" },
+  { name: "The Moon", desc: "Illusions and intuition guide your path.", img: "img/19a.png" },
+  { name: "The Sun", desc: "Joy, success, and clarity light your way.", img: "img/6.png" },
+  { name: "Judgement", desc: "Awakening and reflection bring transformation.", img: "img/22.png" },
+  { name: "The World", desc: "Completion, fulfillment, and celebration arrive.", img: "img/18a.png" }
+];
+
+
+
+ 
+
+ // Create 22 cards stacked at center
+const cards = [];
+for (let i = 0; i < 22; i++) {
+  const c = document.createElement('div');
+  c.className = 'card';
+  c.style.transform = 'translate(-50%, -50%)'; // start centered
+  c.addEventListener('click', () => pickCard());
+  cardsContainer.appendChild(c);
+  cards.push(c);
+}
+
+function fanOutCards() {
+  const radius = 300; // smaller so cards stay near the star
+  const container = document.querySelector('.fortune-center');
+  const centerX = container.offsetWidth / 2;
+  const centerY = container.offsetHeight / 2;
+
+  cards.forEach((c, i) => {
+    const angle = (i / cards.length) * 2 * Math.PI - Math.PI / 2; // fan starts from top
+    const x = centerX + radius * Math.cos(angle);
+    const y = centerY + radius * Math.sin(angle);
+    setTimeout(() => {
+      c.style.transform = `translate(${x - centerX}px, ${y - centerY}px)`; // fan out
+    }, i * 70);
+  });
+}
+
+fadeBtn.addEventListener('click', () => {
+  modelContainer.classList.add('fade-out');
+  fadeBtn.classList.add('fade-out');
+  setTimeout(() => {
+    fortuneContainer.classList.add('active');
+    fanOutCards();
+  }, 1000);
+});
+
+
+function pickCard() {
+  fortuneContainer.classList.remove('active');
+  const f = fortunes[Math.floor(Math.random() * fortunes.length)];
+  
+  setTimeout(() => {
+    resultContainer.innerHTML = `
+      <div class="result-card">
+        <img src="${f.img}" alt="${f.name}" class="result-image">
+        <div class="result-name">${f.name}</div>
+        <div class="result-desc">${f.desc}</div>
+      </div>
+    `;
+    resultContainer.classList.add('active');
+  }, 1000);
+}
+
+  </script>
+</body>
+</html>
+

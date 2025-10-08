@@ -1,0 +1,236 @@
+@font-face {
+    font-family: "MyCustomFont"; /* name to use in CSS */
+    src: url("font/kilo.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "BodyFont"; /* name to use in CSS */
+    src: url("font/reg.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+  }
+
+html, body {
+    font-family: "MyCustomFont";
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 50%, #5c6a7c, #05080f);
+    font-family: sans-serif;
+  }
+
+  
+
+  /* star layer */
+  #star-layer {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .star {
+    position: absolute;
+    top: -2em;
+    user-select: none;
+    pointer-events: none;
+    animation: fall linear forwards;
+    text-shadow: 0 0 6px rgba(239, 91, 210, 0.7);
+  }
+  @keyframes fall {
+    0% { transform: translateY(-10vh); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateY(110vh) translateX(var(--sway)) rotate(var(--rot)); opacity: 0.9; }
+  }
+
+  h1, #modelContainer, button {
+    font-family: "MyCustomFont";
+    position: relative;
+    z-index: 2;
+    color: white;
+  }
+
+  h1 {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 2rem;
+    text-shadow: 0 0 10px rgba(255,255,255,0.4);
+  }
+
+  #modelContainer {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 80vh;
+    opacity: 1;
+    transition: opacity 1s ease;
+  }
+
+  #modelContainer.fade-out { opacity: 0; pointer-events: none; }
+
+  #cardImg{
+    color: red;
+    width: 30%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  #TarotText{
+    color: red;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  button {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: none;
+    color: red;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    cursor: pointer;
+    
+    font-weight: 1000;
+    font-size: 50px;
+    transition: all 0.2s ease;
+    z-index: 3;
+}
+
+
+  button:hover { backdrop-filter: blur(20px);}
+
+  button.fade-out {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.9); /* optional small shrink effect */
+  }
+  /* fortune section */
+  #fortuneContainer {
+    position: fixed;        /* fixed so it centers relative to viewport */
+    top: 50%;               /* vertical center */
+    left: 50%;              /* horizontal center */
+    transform: translate(-50%, -50%); /* shift back by half width/height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 1s ease;
+    z-index: 2;
+    width: 90%;             /* optional, adjusts size */
+    height: 90%;            /* optional, keeps it square for circular gradient */
+    background: radial-gradient(circle, #fff 0%, #e392e8 40%, transparent 70%);
+    border-radius: 100%;     /* makes it circular */
+}
+
+  #fortuneContainer.active { opacity: 1; }
+  
+  .fortune-center {
+    position: relative;
+    width: 500px;
+    height: 500px;
+  }
+  
+  .center-star {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    height: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, #fff 0%, #ff66ff 40%, transparent 70%);
+    border-radius: 50%;
+    box-shadow: 0 0 25px 10px rgba(239, 91, 210, 0.8);
+    animation: pulse 2s infinite alternate;
+    z-index: 2;
+  }
+  
+  #cardsContainer{
+    position: absolute;
+    top: 40%;
+    left: 42%;
+  }
+
+
+  .cards {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+  }
+  
+  .card {
+    position: absolute;
+    width: 60px;
+    height: 100px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transform: translate(-50%, -50%);
+    transition: transform 1s ease, background 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    z-index: 3;
+  }
+  .card:hover {
+    background: rgba(239,91,210,0.4);
+    box-shadow: 0 0 20px rgba(239,91,210,1);
+  }
+  
+
+  /* result card */
+  #resultContainer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    opacity: 0;
+    transition: opacity 1s ease;
+    z-index: 3;
+  }
+  
+  #resultContainer.active { opacity: 1; }
+  
+  .result-card {
+    display: inline-block;
+    padding: 2rem;
+    border-radius: 20px;
+    
+    background: rgba(0,0,0,0.2); /* semi-transparent for glow */
+    box-shadow: 0 0 20px 5px rgba(239, 91, 210, 0.7),
+                0 0 40px 10px rgba(239, 91, 210, 0.3);
+    border: 2px solid rgba(239, 91, 210, 0.5);
+  }
+  
+  .result-image {
+    
+    height: 150px;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    
+  }
+  
+  .result-name {
+    font-family: "MyCustomFont";
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #fff;
+  }
+  
+  .result-desc {
+    font-family: "BodyFont";
+    font-size: 1rem;
+    color: rgba(255,255,255,0.8);
+  }
+  
